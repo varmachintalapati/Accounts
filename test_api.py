@@ -5,9 +5,9 @@ import json
 BASE_URL = "http://localhost:5000"
 
 def test_api():
-    """Test the transactions API endpoints"""
+    """Test the users API endpoints"""
     
-    print("Testing Transactions API")
+    print("Testing Users API")
     print("=" * 50)
     
     # Test 1: Health check
@@ -19,45 +19,55 @@ def test_api():
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
     
-    # Test 2: Get all transactions
-    print("\n2. Testing get all transactions...")
+    # Test 2: Get all users (3 users)
+    print("\n2. Testing get all users (should return 3 users)...")
     try:
-        response = requests.get(f"{BASE_URL}/api/transactions")
+        response = requests.get(f"{BASE_URL}/api/users")
         print(f"Status Code: {response.status_code}")
-        transactions = response.json()
-        print(f"Total transactions: {len(transactions)}")
-        print(f"First transaction: {json.dumps(transactions[0], indent=2)}")
+        users = response.json()
+        print(f"Total users: {len(users)}")
+        print(f"User IDs: {[user['id'] for user in users]}")
+        print(f"First user: {json.dumps(users[0], indent=2)}")
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
     
-    # Test 3: Get credit transactions only
-    print("\n3. Testing get credit transactions...")
+    # Test 3: Get active users only
+    print("\n3. Testing get active users...")
     try:
-        response = requests.get(f"{BASE_URL}/api/transactions?transactionType=CREDIT")
+        response = requests.get(f"{BASE_URL}/api/users?userType=ACTIVE")
         print(f"Status Code: {response.status_code}")
-        transactions = response.json()
-        print(f"Credit transactions: {len(transactions)}")
-        for tx in transactions:
-            print(f"  - {tx['type']}: ${tx['amount']} ({tx['debitCredit']})")
+        users = response.json()
+        print(f"Active users: {len(users)}")
+        for user in users:
+            print(f"  - {user['name']} ({user['username']})")
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
     
-    # Test 4: Get debit transactions only
-    print("\n4. Testing get debit transactions...")
+    # Test 4: Get inactive users only
+    print("\n4. Testing get inactive users...")
     try:
-        response = requests.get(f"{BASE_URL}/api/transactions?transactionType=DEBIT")
+        response = requests.get(f"{BASE_URL}/api/users?userType=INACTIVE")
         print(f"Status Code: {response.status_code}")
-        transactions = response.json()
-        print(f"Debit transactions: {len(transactions)}")
-        for tx in transactions:
-            print(f"  - {tx['type']}: ${tx['amount']} ({tx['debitCredit']})")
+        users = response.json()
+        print(f"Inactive users: {len(users)}")
+        for user in users:
+            print(f"  - {user['name']} ({user['username']})")
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
     
-    # Test 5: Test invalid transaction type
-    print("\n5. Testing invalid transaction type...")
+    # Test 5: Test invalid user type
+    print("\n5. Testing invalid user type...")
     try:
-        response = requests.get(f"{BASE_URL}/api/transactions?transactionType=INVALID")
+        response = requests.get(f"{BASE_URL}/api/users?userType=INVALID")
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {json.dumps(response.json(), indent=2)}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+    
+    # Test 6: Test API documentation endpoint
+    print("\n6. Testing API documentation endpoint...")
+    try:
+        response = requests.get(f"{BASE_URL}/")
         print(f"Status Code: {response.status_code}")
         print(f"Response: {json.dumps(response.json(), indent=2)}")
     except requests.exceptions.RequestException as e:

@@ -27,123 +27,128 @@ def after_request(response):
     response.headers['Expires'] = '0'
     return response
 
-class TransactionType(Enum):
-    CREDIT = "CREDIT"
-    DEBIT = "DEBIT"
+class UserType(Enum):
+    ACTIVE = "ACTIVE"
+    INACTIVE = "INACTIVE"
 
-# Sample transaction data
-SAMPLE_TRANSACTIONS = [
+# Sample user data - Limited to 3 users for API response
+SAMPLE_USERS = [
     {
-        "accountNumber": "12312",
-        "type": "New Account Deposit",
-        "checkNumber": 123,
-        "typeCd": "DEP",
-        "amount": 1232.11,
-        "postedDate": [2012, 9, 20],
-        "effectiveDate": [2012, 9, 20],
-        "debitCredit": "C",
-        "status": "Completed",
-        "runningBalance": "1234.56",
-        "internalTransactionDescription": "Internal Transaction Description",
-        "ExternalTransactionDescription": "External Transaction Description",
-        "referenceNumber": "12345 - 111",
-        "parentTransactionReferenceNumber": "12323 - 123",
-        "reversed": False
+        "id": 1,
+        "name": "Leanne Graham",
+        "username": "Bret",
+        "email": "Sincere@april.biz",
+        "address": {
+            "street": "Kulas Light",
+            "suite": "Apt. 556",
+            "city": "Gwenborough",
+            "zipcode": "92998-3874",
+            "geo": {
+                "lat": "-37.3159",
+                "lng": "81.1496"
+            }
+        },
+        "phone": "1-770-736-8031 x56442",
+        "website": "hildegard.org",
+        "company": {
+            "name": "Romaguera-Crona",
+            "catchPhrase": "Multi-layered client-server neural-net",
+            "bs": "harness real-time e-markets"
+        }
     },
     {
-        "accountNumber": "1232322",
-        "type": "Credit Card Payment",
-        "amount": 1234,
-        "postedDate": [2012, 9, 20],
-        "effectiveDate": [2012, 9, 20],
-        "debitCredit": "D",
-        "status": "Completed",
-        "internalTransactionDescription": "internalTransactionDescription",
-        "ExternalTransactionDescription": "enternalTransactionDescription",
-        "referenceNumber": "90167149 - 316",
-        "reversed": True
+        "id": 2,
+        "name": "Ervin Howell",
+        "username": "Antonette",
+        "email": "Shanna@melissa.tv",
+        "address": {
+            "street": "Victor Plains",
+            "suite": "Suite 879",
+            "city": "Wisokyburgh",
+            "zipcode": "90566-7771",
+            "geo": {
+                "lat": "-43.9509",
+                "lng": "-34.4618"
+            }
+        },
+        "phone": "010-692-6593 x09125",
+        "website": "anastasia.net",
+        "company": {
+            "name": "Deckow-Crist",
+            "catchPhrase": "Proactive didactic contingency",
+            "bs": "synergize scalable supply-chains"
+        }
     },
     {
-        "accountNumber": "54321",
-        "type": "ATM Withdrawal",
-        "amount": 200.00,
-        "postedDate": [2012, 9, 21],
-        "effectiveDate": [2012, 9, 21],
-        "debitCredit": "D",
-        "status": "Completed",
-        "runningBalance": "1034.56",
-        "internalTransactionDescription": "ATM Withdrawal",
-        "ExternalTransactionDescription": "ATM Cash Withdrawal",
-        "referenceNumber": "ATM001 - 789",
-        "reversed": False
-    },
-    {
-        "accountNumber": "12312",
-        "type": "Direct Deposit",
-        "amount": 2500.00,
-        "postedDate": [2012, 9, 22],
-        "effectiveDate": [2012, 9, 22],
-        "debitCredit": "C",
-        "status": "Completed",
-        "runningBalance": "3534.56",
-        "internalTransactionDescription": "Payroll Deposit",
-        "ExternalTransactionDescription": "Direct Deposit - Salary",
-        "referenceNumber": "DD001 - 456",
-        "reversed": False
+        "id": 3,
+        "name": "Clementine Bauch",
+        "username": "Samantha",
+        "email": "Nathan@yesenia.net",
+        "address": {
+            "street": "Douglas Extension",
+            "suite": "Suite 847",
+            "city": "McKenziehaven",
+            "zipcode": "59590-4157",
+            "geo": {
+                "lat": "-68.6102",
+                "lng": "-47.0653"
+            }
+        },
+        "phone": "1-463-123-4447",
+        "website": "ramiro.info",
+        "company": {
+            "name": "Romaguera-Jacobson",
+            "catchPhrase": "Face to face bifurcated interface",
+            "bs": "e-enable strategic applications"
+        }
     }
 ]
 
-def filter_transactions_by_type(transactions: List[Dict], transaction_type: Optional[str]) -> List[Dict]:
+def filter_users_by_type(users: List[Dict], user_type: Optional[str]) -> List[Dict]:
     """
-    Filter transactions based on the transaction type (CREDIT or DEBIT)
+    Filter users based on the user type (ACTIVE or INACTIVE)
+    For this implementation, we'll return all users for any filter since
+    the sample data doesn't include status information
     
     Args:
-        transactions: List of transaction dictionaries
-        transaction_type: Optional transaction type filter ('CREDIT' or 'DEBIT')
+        users: List of user dictionaries
+        user_type: Optional user type filter ('ACTIVE' or 'INACTIVE')
         
     Returns:
-        Filtered list of transactions
+        Filtered list of users (currently returns all users)
     """
-    if not transaction_type:
-        return transactions
+    if not user_type:
+        return users
     
-    # Map transaction type to debitCredit field values
-    type_mapping = {
-        TransactionType.CREDIT.value: "C",
-        TransactionType.DEBIT.value: "D"
-    }
-    
-    if transaction_type.upper() not in type_mapping:
-        return transactions
-    
-    debit_credit_value = type_mapping[transaction_type.upper()]
-    return [tx for tx in transactions if tx.get("debitCredit") == debit_credit_value]
+    # For this sample API, return all users regardless of filter
+    # In a real implementation, you would filter based on user status
+    return users
 
-@app.route('/api/transactions', methods=['GET'])
-def get_transactions():
+@app.route('/api/users', methods=['GET'])
+def get_users():
     """
-    Get transactions with optional filtering by transaction type
+    Get users with optional filtering by user type
     
     Query Parameters:
-        transactionType (optional): Filter by CREDIT or DEBIT transactions
+        userType (optional): Filter by ACTIVE or INACTIVE users
         
     Returns:
-        JSON array of transactions
+        JSON array of users (3 users total)
     """
     try:
-        # Get the optional transactionType query parameter
-        transaction_type = request.args.get('transactionType', None)
+        # Get the optional userType query parameter
+        user_type = request.args.get('userType', None)
         
-        # Validate transaction type if provided
-        if transaction_type and transaction_type.upper() not in [e.value for e in TransactionType]:
+        # Validate user type if provided
+        if user_type and user_type.upper() not in [e.value for e in UserType]:
             return jsonify({
-                "error": "Invalid transaction type. Valid values are: CREDIT, DEBIT"
+                "error": "Invalid user type. Valid values are: ACTIVE, INACTIVE"
             }), 400
         
-        # Filter transactions based on the transaction type
-        filtered_transactions = filter_transactions_by_type(SAMPLE_TRANSACTIONS, transaction_type)
+        # Filter users based on the user type (currently returns all users)
+        filtered_users = filter_users_by_type(SAMPLE_USERS, user_type)
         
-        return jsonify(filtered_transactions), 200
+        return jsonify(filtered_users), 200
         
     except Exception as e:
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
@@ -151,35 +156,51 @@ def get_transactions():
 @app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
-    return jsonify({"status": "healthy", "message": "Transactions API is running"}), 200
+    return jsonify({"status": "healthy", "message": "Users API is running"}), 200
 
 @app.route('/', methods=['GET'])
 def home():
     """Root endpoint with API documentation"""
     documentation = {
-        "message": "Transactions API",
-        "version": "1.0.0",
+        "message": "Users API",
+        "version": "1.0.0", 
+        "description": "Public API that returns user data with optional filtering",
         "endpoints": {
-            "/api/transactions": {
+            "/api/users": {
                 "method": "GET",
-                "description": "Get transactions with optional filtering",
+                "description": "Get users data with optional filtering",
                 "parameters": {
-                    "transactionType": {
+                    "userType": {
                         "type": "string",
                         "required": False,
-                        "description": "Filter by transaction type",
-                        "enum": ["CREDIT", "DEBIT"]
+                        "description": "Filter by user type",
+                        "enum": ["ACTIVE", "INACTIVE"]
                     }
                 },
                 "examples": {
-                    "all_transactions": "/api/transactions",
-                    "credit_only": "/api/transactions?transactionType=CREDIT",
-                    "debit_only": "/api/transactions?transactionType=DEBIT"
-                }
+                    "all_users": "/api/users",
+                    "active_only": "/api/users?userType=ACTIVE",
+                    "inactive_only": "/api/users?userType=INACTIVE"
+                },
+                "note": "Returns 3 users with complete profile information"
             },
             "/api/health": {
                 "method": "GET",
                 "description": "Health check endpoint"
+            }
+        },
+        "sample_response": {
+            "structure": "Array of 3 user objects",
+            "total_users": 3,
+            "fields": {
+                "id": "number - User ID (1, 2, 3)",
+                "name": "string - Full name",
+                "username": "string - Username",
+                "email": "string - Email address",
+                "address": "object - Address details with street, suite, city, zipcode, and geo coordinates",
+                "phone": "string - Phone number",
+                "website": "string - Website",
+                "company": "object - Company details with name, catchPhrase, and bs"
             }
         }
     }
@@ -198,12 +219,13 @@ if __name__ == '__main__':
     # Run the Flask app with public access configuration
     # host='0.0.0.0' allows access from any IP address
     # This makes the API publicly accessible from anywhere
-    print(f"Starting Transactions API on port {port}")
+    print(f"Starting Users API on port {port}")
     print(f"API will be accessible at: http://0.0.0.0:{port}")
     print("API Endpoints:")
-    print(f"  - GET /api/transactions (with optional ?transactionType=CREDIT|DEBIT)")
+    print(f"  - GET /api/users (returns 3 users, optional ?userType=ACTIVE|INACTIVE)")
     print(f"  - GET /api/health")
     print(f"  - GET /")
+    print("Response: Array of 3 user objects with complete profile data")
     
     app.run(
         host='0.0.0.0',  # Bind to all network interfaces for public access

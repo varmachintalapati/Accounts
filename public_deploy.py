@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Public Internet Deployment Script for Transactions API
+Public Internet Deployment Script for Users API
 This script provides multiple options to make your API accessible over the internet
 """
 
@@ -86,9 +86,9 @@ def start_api_with_ngrok():
                 print(f"🔗 Public URL: {public_url}")
                 print("=" * 60)
                 print("📋 Test these endpoints from anywhere in the world:")
-                print(f"   • All transactions: {public_url}/api/transactions")
-                print(f"   • Credit only: {public_url}/api/transactions?transactionType=CREDIT")
-                print(f"   • Debit only: {public_url}/api/transactions?transactionType=DEBIT")
+                print(f"   • All users: {public_url}/api/users")
+                print(f"   • Active users: {public_url}/api/users?userType=ACTIVE")
+                print(f"   • Inactive users: {public_url}/api/users?userType=INACTIVE")
                 print(f"   • Health check: {public_url}/api/health")
                 print(f"   • API docs: {public_url}/")
                 print("=" * 60)

@@ -1,6 +1,6 @@
-# Transactions API
+# Users API
 
-A public REST API endpoint that provides transaction data with optional filtering capabilities. **This API is configured for public access and can be accessed from any system or location.**
+A public REST API endpoint that provides user data with optional filtering capabilities. **This API is configured for public access and can be accessed from any system or location.**
 
 ## 🌐 Public Access Features
 
@@ -56,15 +56,15 @@ After deployment, your API will be accessible at:
 
 **🔥 Ngrok (Instant):**
 - Public URL provided after running `public_deploy.py`
-- Example: `https://abc123.ngrok.io/api/transactions`
+- Example: `https://abc123.ngrok.io/api/users`
 
 **☁️ Cloud Platforms:**
-- **Render:** `https://yourapp.onrender.com/api/transactions`
-- **Railway:** `https://yourapp.railway.app/api/transactions`
-- **Heroku:** `https://yourapp.herokuapp.com/api/transactions`
+- **Render:** `https://yourapp.onrender.com/api/users`
+- **Railway:** `https://yourapp.railway.app/api/users`
+- **Heroku:** `https://yourapp.herokuapp.com/api/users`
 
 **🏠 Local:**
-- `http://localhost:5000/api/transactions`
+- `http://localhost:5000/api/users`
 
 ## Installation
 
@@ -82,51 +82,103 @@ The API will be available at `http://localhost:5000`
 
 ## API Endpoints
 
-### GET /api/transactions
+### GET /api/users
 
-Returns a list of transactions with optional filtering.
+Returns a list of 3 users with optional filtering.
 
 **Query Parameters:**
-- `transactionType` (optional): Filter transactions by type
-  - Valid values: `CREDIT`, `DEBIT`
-  - If not provided, all transactions are returned
+- `userType` (optional): Filter users by type
+  - Valid values: `ACTIVE`, `INACTIVE`
+  - If not provided, all 3 users are returned
 
 **Examples:**
 
-1. Get all transactions:
+1. Get all users (3 users):
 ```
-GET /api/transactions
-```
-
-2. Get only credit transactions:
-```
-GET /api/transactions?transactionType=CREDIT
+GET /api/users
 ```
 
-3. Get only debit transactions:
+2. Get only active users:
 ```
-GET /api/transactions?transactionType=DEBIT
+GET /api/users?userType=ACTIVE
 ```
 
-**Response Format:**
+3. Get only inactive users:
+```
+GET /api/users?userType=INACTIVE
+```
+
+**Response Format (3 users):**
 ```json
 [
   {
-    "accountNumber": "12312",
-    "type": "New Account Deposit",
-    "checkNumber": 123,
-    "typeCd": "DEP",
-    "amount": 1232.11,
-    "postedDate": [2012, 9, 20],
-    "effectiveDate": [2012, 9, 20],
-    "debitCredit": "C",
-    "status": "Completed",
-    "runningBalance": "1234.56",
-    "internalTransactionDescription": "Internal Transaction Description",
-    "ExternalTransactionDescription": "External Transaction Description",
-    "referenceNumber": "12345 - 111",
-    "parentTransactionReferenceNumber": "12323 - 123",
-    "reversed": false
+    "id": 1,
+    "name": "Leanne Graham",
+    "username": "Bret",
+    "email": "Sincere@april.biz",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Ervin Howell",
+    "username": "Antonette",
+    "email": "Shanna@melissa.tv",
+    "address": {
+      "street": "Victor Plains",
+      "suite": "Suite 879",
+      "city": "Wisokyburgh",
+      "zipcode": "90566-7771",
+      "geo": {
+        "lat": "-43.9509",
+        "lng": "-34.4618"
+      }
+    },
+    "phone": "010-692-6593 x09125",
+    "website": "anastasia.net",
+    "company": {
+      "name": "Deckow-Crist",
+      "catchPhrase": "Proactive didactic contingency",
+      "bs": "synergize scalable supply-chains"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Clementine Bauch",
+    "username": "Samantha",
+    "email": "Nathan@yesenia.net",
+    "address": {
+      "street": "Douglas Extension",
+      "suite": "Suite 847",
+      "city": "McKenziehaven",
+      "zipcode": "59590-4157",
+      "geo": {
+        "lat": "-68.6102",
+        "lng": "-47.0653"
+      }
+    },
+    "phone": "1-463-123-4447",
+    "website": "ramiro.info",
+    "company": {
+      "name": "Romaguera-Jacobson",
+      "catchPhrase": "Face to face bifurcated interface",
+      "bs": "e-enable strategic applications"
+    }
   }
 ]
 ```
@@ -139,7 +191,7 @@ Health check endpoint to verify the API is running.
 ```json
 {
   "status": "healthy",
-  "message": "Transactions API is running"
+  "message": "Users API is running"
 }
 ```
 
@@ -151,21 +203,24 @@ Root endpoint that provides API documentation.
 
 | Field | Type | Description |
 |-------|------|-------------|
-| accountNumber | string | Account identifier |
-| type | string | Transaction type description |
-| checkNumber | number | Check number (optional) |
-| typeCd | string | Transaction type code (optional) |
-| amount | number | Transaction amount |
-| postedDate | array | Posted date as [year, month, day] |
-| effectiveDate | array | Effective date as [year, month, day] |
-| debitCredit | string | "C" for Credit, "D" for Debit |
-| status | string | Transaction status |
-| runningBalance | string | Account balance after transaction (optional) |
-| internalTransactionDescription | string | Internal description |
-| ExternalTransactionDescription | string | External description |
-| referenceNumber | string | Transaction reference number |
-| parentTransactionReferenceNumber | string | Parent transaction reference (optional) |
-| reversed | boolean | Whether the transaction was reversed |
+| id | number | Unique user identifier |
+| name | string | Full name of the user |
+| username | string | Username for the account |
+| email | string | Email address |
+| address | object | Address information |
+| address.street | string | Street address |
+| address.suite | string | Suite/apartment number |
+| address.city | string | City name |
+| address.zipcode | string | ZIP/postal code |
+| address.geo | object | Geographic coordinates |
+| address.geo.lat | string | Latitude |
+| address.geo.lng | string | Longitude |
+| phone | string | Phone number |
+| website | string | Personal/company website |
+| company | object | Company information |
+| company.name | string | Company name |
+| company.catchPhrase | string | Company catchphrase |
+| company.bs | string | Company business strategy |
 
 ## Error Handling
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Production deployment script for the Transactions API
+Production deployment script for the Users API
 This script configures the API for public access with production settings
 """
 
@@ -38,23 +38,23 @@ def run_production_server():
             print("Invalid port number. Using default port 5000")
     
     print("=" * 60)
-    print("🚀 STARTING TRANSACTIONS API - PUBLIC ACCESS MODE")
+    print("🚀 STARTING USERS API - PUBLIC ACCESS MODE")
     print("=" * 60)
     print(f"🌐 Port: {port}")
     print(f"🔗 Local Access: http://localhost:{port}")
     print(f"🌍 Public Access: http://YOUR_PUBLIC_IP:{port}")
     print("=" * 60)
     print("📋 Available Endpoints:")
-    print(f"   GET /api/transactions")
-    print(f"   GET /api/transactions?transactionType=CREDIT")
-    print(f"   GET /api/transactions?transactionType=DEBIT")
+    print(f"   GET /api/users")
+    print(f"   GET /api/users?userType=ACTIVE")
+    print(f"   GET /api/users?userType=INACTIVE")
     print(f"   GET /api/health")
     print(f"   GET /")
     print("=" * 60)
     print("🔧 To access from external systems:")
     print("   1. Find your public IP address")
     print("   2. Ensure firewall allows traffic on this port")
-    print("   3. Use: http://YOUR_PUBLIC_IP:{port}/api/transactions")
+    print("   3. Use: http://YOUR_PUBLIC_IP:{port}/api/users")
     print("=" * 60)
     print("⚠️  SECURITY NOTE: This is a public API without authentication")
     print("   Consider adding API keys or rate limiting for production use")

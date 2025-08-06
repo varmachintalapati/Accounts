@@ -1,6 +1,6 @@
 # Public API Deployment Guide
 
-This guide explains how to deploy the Transactions API to make it publicly accessible from anywhere.
+This guide explains how to deploy the Users API to make it publicly accessible from anywhere.
 
 ## 🚀 Quick Start (Local Public Access)
 
@@ -46,9 +46,9 @@ The API runs on `0.0.0.0:5000`, making it accessible from:
 **Heroku:**
 ```bash
 # Install Heroku CLI and login
-heroku create your-transactions-api
+heroku create your-users-api
 git add .
-git commit -m "Deploy transactions API"
+git commit -m "Deploy users API"
 git push heroku main
 ```
 
@@ -64,7 +64,7 @@ gunicorn -c gunicorn.conf.py app:app
 **Google Cloud Platform:**
 ```bash
 # Deploy to Google Cloud Run
-gcloud run deploy transactions-api --source . --port 5000 --allow-unauthenticated
+gcloud run deploy users-api --source . --port 5000 --allow-unauthenticated
 ```
 
 **DigitalOcean:**
@@ -91,7 +91,7 @@ gcloud run deploy transactions-api --source . --port 5000 --allow-unauthenticate
 **Windows Firewall:**
 ```powershell
 # Allow inbound traffic on port 5000
-New-NetFirewallRule -DisplayName "Transactions API" -Direction Inbound -Port 5000 -Protocol TCP -Action Allow
+New-NetFirewallRule -DisplayName "Users API" -Direction Inbound -Port 5000 -Protocol TCP -Action Allow
 ```
 
 **Linux (UFW):**
@@ -115,9 +115,9 @@ Base URL: https://your-domain.com (if using custom domain)
 ```
 
 ### Endpoints:
-- `GET /api/transactions` - Get all transactions
-- `GET /api/transactions?transactionType=CREDIT` - Get credit transactions
-- `GET /api/transactions?transactionType=DEBIT` - Get debit transactions
+- `GET /api/users` - Get all users
+- `GET /api/users?userType=ACTIVE` - Get active users
+- `GET /api/users?userType=INACTIVE` - Get inactive users
 - `GET /api/health` - Health check
 - `GET /` - API documentation
 
@@ -163,14 +163,14 @@ curl http://YOUR_API_URL/api/health
 
 ### API Testing:
 ```bash
-# Test all transactions
-curl http://YOUR_API_URL/api/transactions
+# Test all users
+curl http://YOUR_API_URL/api/users
 
-# Test credit transactions only
-curl "http://YOUR_API_URL/api/transactions?transactionType=CREDIT"
+# Test active users only
+curl "http://YOUR_API_URL/api/users?userType=ACTIVE"
 
-# Test debit transactions only
-curl "http://YOUR_API_URL/api/transactions?transactionType=DEBIT"
+# Test inactive users only
+curl "http://YOUR_API_URL/api/users?userType=INACTIVE"
 ```
 
 ### Production Monitoring:
@@ -204,15 +204,15 @@ curl "http://YOUR_API_URL/api/transactions?transactionType=DEBIT"
 ## 🌍 Example Public URLs
 
 After deployment, your API will be accessible like:
-- `http://203.0.113.1:5000/api/transactions`
-- `https://my-transactions-api.herokuapp.com/api/transactions`
-- `https://api.mydomain.com/transactions`
+- `http://203.0.113.1:5000/api/users`
+- `https://my-users-api.herokuapp.com/api/users`
+- `https://api.mydomain.com/users`
 
 ## 📱 Client Integration Examples
 
 ### JavaScript (Web):
 ```javascript
-fetch('http://YOUR_API_URL/api/transactions?transactionType=CREDIT')
+fetch('http://YOUR_API_URL/api/users?userType=ACTIVE')
   .then(response => response.json())
   .then(data => console.log(data));
 ```
@@ -220,13 +220,13 @@ fetch('http://YOUR_API_URL/api/transactions?transactionType=CREDIT')
 ### Python:
 ```python
 import requests
-response = requests.get('http://YOUR_API_URL/api/transactions')
+response = requests.get('http://YOUR_API_URL/api/users')
 data = response.json()
 ```
 
 ### cURL:
 ```bash
-curl -X GET "http://YOUR_API_URL/api/transactions?transactionType=DEBIT"
+curl -X GET "http://YOUR_API_URL/api/users?userType=INACTIVE"
 ```
 
 ## 📞 Support

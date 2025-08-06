@@ -1,6 +1,6 @@
 # PowerShell script to make API public using ngrok
-Write-Host "🌍 MAKING TRANSACTIONS API PUBLIC" -ForegroundColor Green
-Write-Host "=================================" -ForegroundColor Green
+Write-Host "🌍 MAKING USERS API PUBLIC" -ForegroundColor Green
+Write-Host "===========================" -ForegroundColor Green
 
 # Check if ngrok is installed
 $ngrokInstalled = $false
@@ -58,9 +58,9 @@ if ($ngrokInstalled) {
             Write-Host "🔗 Public URL: $publicUrl" -ForegroundColor Yellow
             Write-Host ""
             Write-Host "📋 Test these endpoints:" -ForegroundColor Cyan
-            Write-Host "   • All transactions: $publicUrl/api/transactions" -ForegroundColor White
-            Write-Host "   • Credit only: $publicUrl/api/transactions?transactionType=CREDIT" -ForegroundColor White
-            Write-Host "   • Debit only: $publicUrl/api/transactions?transactionType=DEBIT" -ForegroundColor White
+            Write-Host "   • All users: $publicUrl/api/users" -ForegroundColor White
+            Write-Host "   • Active users: $publicUrl/api/users?userType=ACTIVE" -ForegroundColor White
+            Write-Host "   • Inactive users: $publicUrl/api/users?userType=INACTIVE" -ForegroundColor White
             Write-Host "   • Health check: $publicUrl/api/health" -ForegroundColor White
             Write-Host ""
             Write-Host "🌍 This URL works from anywhere in the world!" -ForegroundColor Green

@@ -30,11 +30,11 @@ loglevel = "info"
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s" %(D)s'
 
 # Process naming
-proc_name = "transactions_api"
+proc_name = "users_api"
 
 # Server mechanics
 daemon = False
-pidfile = "/tmp/transactions_api.pid"
+pidfile = "/tmp/users_api.pid"
 user = None
 group = None
 tmp_upload_dir = None

@@ -1,8 +1,8 @@
 @echo off
 echo.
-echo =============================================
-echo  TRANSACTIONS API - PUBLIC INTERNET ACCESS
-echo =============================================
+echo ==========================================
+echo  USERS API - PUBLIC INTERNET ACCESS
+echo ==========================================
 echo.
 echo Choose your option:
 echo 1. Make API public instantly (ngrok)
